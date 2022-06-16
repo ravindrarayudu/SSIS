@@ -1,0 +1,20 @@
+
+If you have SQL server in your local machine (if not , Please try to install)
+
+Create 2 Databases. One is Test DB (Assume it is as your source) and One is Staging DB.
+Create Config Schema under Staging DB and Create all required tables and Procedures from attached file.
+Create any Sample table (Ex: Employee with some columns) in both the DB’s and try to insert data in Employee table created under Test DB.
+TableInformation & PackageInformation are master tables. So insert the values as below . Here ‘N'Extraction_IRIS_CompanyType'’ means, SSIS package name which is your are going to create. So please change the name as your package name.
+INSERT [Config].[PackageInformation] ([PackageID], [PackageName], [ETLStage], [SkipPackageLoad], [PackageStatus], [ExecutionThread])
+
+VALUES (1, N'Extraction_IRIS_CompanyType', N'E', 0, N'Waiting', 1)
+
+INSERT [Config].[TableInformation] ([TableID], [DataSource], [TableSchema], [TableName], [ETLStage], [SourceSchema], [SourceTable], [LastSuccessfulStartDate], [LastSuccessfulEndDate], [IsCompleted]) VALUES (N'Test', N'Test', N'Empolyee', N'E', N'dbo', N'Employee', NULL, NULL, 1)
+
+ 
+
+Create SSIS Packages. Please take attached DTX files as sample templates and create new packages. change all the variable values accordingly. (Hope you have Visual studio with BI in your machine.). In attached samples, all connection strings are configured through environment variables. This is only testing purpose, So you create all required DB connections normally.
+Final step is run the packages in Order. 1) Intialize.dtsx, 2) Extraction, 3) Finalize packages.
+Check the values under ETLbatch, AuditTableInformation and AuditPackageInformation.
+
+ 
