@@ -1,0 +1,2698 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/14/2014 7:57:08 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="LHHYDLA0275"
+  DTS:CreatorName="LHHYD\vpavanje"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{8414279E-4818-4405-B3B2-085D07AE0AE1}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.5058.0"
+  DTS:LocaleID="16393"
+  DTS:ObjectName="Extraction_NEIRB_ProtocolCompany_CompanyType"
+  DTS:PackageType="5"
+  DTS:VersionBuild="183"
+  DTS:VersionGUID="{E2BE654F-B75E-4D32-B0BC-46B534106400}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ConfigDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+      DTS:ObjectName="ConfigDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=db01pdca.wcgclinical.com\ABIRT;User ID=wcg_etl_job;Initial Catalog=WCG_Stage;Provider=SQLNCLI11.1; Password=F@RRm4Vess;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LogFile]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{DB633F64-8F2F-4ADE-9A56-5EE3FCE9F3AE}"
+      DTS:ObjectName="LogFile">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::strLogFile]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="1"
+          DTS:ConnectionString="D:\WCG_Reporting\LogFiles\Extraction_NEIRB_ProtocolCompany_CompanyType_2016.06.09.log" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[NEIRB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BDAC1703-A586-417C-9AAD-EDEB654302CE}"
+      DTS:ObjectName="NEIRB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=db12pdca.wcgclinical.com;User ID=wcg_etl_job;Initial Catalog=IRIS;Provider=SQLNCLI11.1; Password=FFJ@4cwsK8;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[StagingDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CC35C6C4-9F53-4198-BB77-7D4A5733D830}"
+      DTS:ObjectName="StagingDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=db01Pdca.wcgclinical.com\ABIRT;User ID=wcg_etl_job;Initial Catalog=WCG_Stage;Provider=SQLNCLI11.1; Password=F@RRm4Vess;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="SSIS_SQL_ConfigDB"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{40CB37BB-DC27-4852-B7F4-B4F768D50B87}"
+      DTS:ObjectName="ConfigDB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="SSIS_SQL_StagingDB"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{1F432DD4-3353-4CBB-820C-F0317F64853C}"
+      DTS:ObjectName="StagingDB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="SSIS_SQL_NEIRB"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{F4122D49-0925-486C-879B-AF422463564F}"
+      DTS:ObjectName="NEIRB" />
+  </DTS:Configurations>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="StagingDB"
+      DTS:CreationName="DTS.LogProviderSQLServer.3"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{3E405D7E-6D57-4F3B-A60F-301A0F3D19AF}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+    <DTS:LogProvider
+      DTS:ConfigString="LogFile"
+      DTS:CreationName="DTS.LogProviderTextFile.3"
+      DTS:Description="Writes log entries for events to a CSV file"
+      DTS:DTSID="{32AB4DD3-0FFD-4DF0-B936-00D4D2C17826}"
+      DTS:ObjectName="SSIS log provider for Text files">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0B30DDC1-0D23-436B-B330-10A5AB70011D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="AuditColumn">
+      <DTS:VariableValue
+        DTS:DataType="8">dtModified</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{93E92C88-7DA8-4004-9B9D-F91C8A15A3F1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DataSource">
+      <DTS:VariableValue
+        DTS:DataType="8">NEIRB</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{64AA015D-7FFC-4ABF-BA60-2F2F2A92D348}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="DeleteRowCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6ADE2DC6-A8BF-418A-9CFB-7630078CB0F5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT iCompanyID,iProtocolID,siCompanyTypeID, 'NEIRB' AS DataSource, 1 AS IsMarkedDeleted  FROM [&quot;  + @[User::SourceSchema] + &quot;].[Z_&quot; +  @[User::SourceTable] + &quot;] WHERE chUpdateMode = 'D'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DeleteSQLText">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT iCompanyID,iProtocolID,siCompanyTypeID, 'NEIRB' AS DataSource, 1 AS IsMarkedDeleted  FROM [dbo].[Z_ProtocolCompany_CompanyType] WHERE chUpdateMode = 'D'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A829058A-4A94-4CE1-B677-7C3080520B3C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETLBatchID">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A6A29B0D-FD37-4DF4-9AE9-F8CD2EB1B7D8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETLStage">
+      <DTS:VariableValue
+        DTS:DataType="8">E</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C4B66680-8E8D-48B4-9F38-401B9074EE43}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="InsertRowCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{77724A77-49B5-4249-82DC-4C8B87F78AAF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadEndDate">
+      <DTS:VariableValue
+        DTS:DataType="8">9999-01-01</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DD82B8DB-0BB0-4224-80BE-4F58F8188BF6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadStartDate">
+      <DTS:VariableValue
+        DTS:DataType="8">1900-01-01</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{93E93E22-61BB-4C30-9DE5-4B8B5AFD6C84}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageStatus">
+      <DTS:VariableValue
+        DTS:DataType="8">Failed</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{87C0F5EA-17E3-43D1-BD28-D3DD77443348}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="PKColumns">
+      <DTS:VariableValue
+        DTS:DataType="8">iAddressID</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{34A95B7C-EF2C-49D6-B49A-7769ACD501F0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SkipDataSource">
+      <DTS:VariableValue
+        DTS:DataType="8">Y</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6BAD7EB5-4870-4123-B350-EC2ABF733249}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceSchema">
+      <DTS:VariableValue
+        DTS:DataType="8">dbo</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CF97F4FB-266E-49DF-9F1E-9D670D78F010}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceTable">
+      <DTS:VariableValue
+        DTS:DataType="8">ProtocolCompany_CompanyType</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D8DB19E2-F0FF-4D60-A522-F17D806557E5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT *,BINARY_CHECKSUM(*) AS RowCRC FROM &quot;  + @[User::SourceSchema] + &quot;.&quot; +  @[User::SourceTable] + &quot; WHERE &quot; +  @[User::AuditColumn] + &quot; &gt;= &quot; +  &quot;'&quot; + @[User::LoadStartDate] +  &quot;' AND &quot; + @[User::AuditColumn] + &quot; &lt; &quot; +  &quot;'&quot; + @[User::LoadEndDate] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SQLText">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT *,BINARY_CHECKSUM(*) AS RowCRC FROM dbo.ProtocolCompany_CompanyType WHERE dtModified &gt;= '1900-01-01' AND dtModified &lt; '9999-01-01'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D63131D0-C0B7-4C19-BAD7-6A4D4E3B16BD}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StagingSchema">
+      <DTS:VariableValue
+        DTS:DataType="8">Extraction</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8115A63E-E963-4A90-B2DC-FF04084EE9D2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StagingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">NEIRB_ProtocolCompany_CompanyType</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F812A507-1E54-4069-8D04-069949C7A3CC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::strRootFolder] + &quot;CheckpointFiles\\&quot; + @[System::PackageName]  + &quot;.xml&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strCheckPointFile">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\WCG_Reporting\CheckpointFiles\Extraction_NEIRB_ProtocolCompany_CompanyType.xml</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0EB1B5C3-70B7-419C-BA68-E4B2DF6055C8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::strRootFolder] + &quot;LogFiles\\&quot; +  @[System::PackageName] + &quot;_&quot;  &#xA;+ REPLACE((DT_WSTR, 30) ((DT_DBDATE) GETDATE()),&quot;-&quot;,&quot;.&quot;)  + &quot;.log&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strLogFile">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\WCG_Reporting\LogFiles\Extraction_NEIRB_ProtocolCompany_CompanyType_2016.06.09.log</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{03BDBE8E-0CB0-46A0-8254-E0648C053EB8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strRootFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\WCG_Reporting\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1868B195-1516-41E7-9400-F065B4196264}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_WSTR, 3) @VersionMajor + &quot;.&quot; +  (DT_WSTR, 3)@VersionMinor + &quot;.&quot; + (DT_WSTR, 3)@VersionBuild"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strVersion">
+      <DTS:VariableValue
+        DTS:DataType="8">1.0.183</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">3,7,OnError,13,OnQueryCancel,12,OnTaskFailed</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPostExecute"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPreExecute"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnProgress"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnQueryCancel"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnTaskFailed"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnWarning"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{3E405D7E-6D57-4F3B-A60F-301A0F3D19AF}" />
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{32AB4DD3-0FFD-4DF0-B936-00D4D2C17826}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT_Extract Deleted Records"
+      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6945FBB4-3B23-4806-8781-3B5344D590DE}"
+      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT_Extract Deleted Records"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information"
+              componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLEDST_Write Deleted Information"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Extraction].[Neirb_ProtocolCompany_CompanyType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 2000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">104857600</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[StagingDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[StagingDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].Columns[DataSource]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="DataSource"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[DataSource]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[DataSource]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].Columns[IsMarkedDeleted]"
+                      cachedDataType="i4"
+                      cachedName="IsMarkedDeleted"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[IsMarkedDeleted]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[IsMarkedDeleted]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].Columns[iCompanyID]"
+                      cachedDataType="i4"
+                      cachedName="iCompanyID"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[iCompanyID]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[iCompanyID]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].Columns[iProtocolID]"
+                      cachedDataType="i4"
+                      cachedName="iProtocolID"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[iProtocolID]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[iProtocolID]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].Columns[siCompanyTypeID]"
+                      cachedDataType="i2"
+                      cachedName="siCompanyTypeID"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[siCompanyTypeID]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[siCompanyTypeID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[iCreatedBy]"
+                      dataType="i4"
+                      name="iCreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[dtCreated]"
+                      dataType="dbTimeStamp"
+                      name="dtCreated" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[iModifiedBy]"
+                      dataType="i4"
+                      name="iModifiedBy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[dtModified]"
+                      dataType="dbTimeStamp"
+                      name="dtModified" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[DataSource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="DataSource" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[IsMarkedDeleted]"
+                      dataType="bool"
+                      name="IsMarkedDeleted" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[RowCRC]"
+                      dataType="i8"
+                      name="RowCRC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[ETLBatchID]"
+                      dataType="i8"
+                      name="ETLBatchID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[iCompanyID]"
+                      dataType="i4"
+                      name="iCompanyID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[iProtocolID]"
+                      dataType="i4"
+                      name="iProtocolID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[siCompanyTypeID]"
+                      dataType="i2"
+                      name="siCompanyTypeID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input].ExternalColumns[tiPrimary]"
+                      dataType="ui1"
+                      name="tiPrimary" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information"
+              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLESRC_Read Deleted Information"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">"SELECT iAddressID, 'NEIRB' AS DataSource, 1 AS IsMarkedDeleted  FROM ["  + @[User::SourceSchema] + "].[Z_" +  @[User::SourceTable] + "] WHERE chUpdateMode = 'D'"</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::DeleteSQLText</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[NEIRB]"
+                  connectionManagerRefId="Package.ConnectionManagers[NEIRB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[DataSource]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[DataSource]"
+                      length="5"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[DataSource]"
+                      name="DataSource"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[IsMarkedDeleted]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[IsMarkedDeleted]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[IsMarkedDeleted]"
+                      name="IsMarkedDeleted"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[iCompanyID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[iCompanyID]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[iCompanyID]"
+                      name="iCompanyID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[iProtocolID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[iProtocolID]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[iProtocolID]"
+                      name="iProtocolID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[siCompanyTypeID]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[siCompanyTypeID]"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].Columns[siCompanyTypeID]"
+                      name="siCompanyTypeID"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[DataSource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="DataSource" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[IsMarkedDeleted]"
+                      dataType="i4"
+                      name="IsMarkedDeleted" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[iCompanyID]"
+                      dataType="i4"
+                      name="iCompanyID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[iProtocolID]"
+                      dataType="i4"
+                      name="iProtocolID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output].ExternalColumns[siCompanyTypeID]"
+                      dataType="i2"
+                      name="siCompanyTypeID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[iCompanyID]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[iCompanyID]"
+                      name="iCompanyID" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[iProtocolID]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[iProtocolID]"
+                      name="iProtocolID" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[siCompanyTypeID]"
+                      dataType="i2"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[siCompanyTypeID]"
+                      name="siCompanyTypeID" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[DataSource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[DataSource]"
+                      name="DataSource" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[IsMarkedDeleted]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[IsMarkedDeleted]"
+                      name="IsMarkedDeleted" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="RC_Set Delete Read Count">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::DeleteRowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT_Extract Deleted Records.Paths[OLE DB Source Output]"
+              endId="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count.Inputs[Row Count Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT_Extract Deleted Records.Paths[Row Count Output 1]"
+              endId="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information.Inputs[OLE DB Destination Input]"
+              name="Row Count Output 1"
+              startId="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count.Outputs[Row Count Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT_Extract Updates Inserts"
+      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{338C5FAC-5C10-4FC6-AF1D-D0F71020256C}"
+      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT_Extract Updates Inserts"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source"
+              componentClassID="{49928E82-9C4E-49F0-AABE-3812B82707EC}"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DRV Set Data Source"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output].Columns[DataSource]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output].Columns[DataSource]"
+                      name="DataSource"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)@[User::DataSource]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)@[User::DataSource]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output].Columns[ETLBatchID]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output].Columns[ETLBatchID]"
+                      name="ETLBatchID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::ETLBatchID]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::ETLBatchID]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType"
+              componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Extraction].[Neirb_ProtocolCompany_CompanyType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 2000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">104857600</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[StagingDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[StagingDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[iCreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="iCreatedBy"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iCreatedBy]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iCreatedBy]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[dtCreated]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="dtCreated"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[dtCreated]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[dtCreated]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[iModifiedBy]"
+                      cachedDataType="i4"
+                      cachedName="iModifiedBy"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iModifiedBy]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iModifiedBy]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[dtModified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="dtModified"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[dtModified]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[dtModified]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[RowCRC]"
+                      cachedDataType="i4"
+                      cachedName="RowCRC"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[RowCRC]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[RowCRC]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[DataSource]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="DataSource"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[DataSource]"
+                      lineageId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output].Columns[DataSource]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[ETLBatchID]"
+                      cachedDataType="i8"
+                      cachedName="ETLBatchID"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[ETLBatchID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output].Columns[ETLBatchID]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[iCompanyID]"
+                      cachedDataType="i4"
+                      cachedName="iCompanyID"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iCompanyID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iCompanyID]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[iProtocolID]"
+                      cachedDataType="i4"
+                      cachedName="iProtocolID"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iProtocolID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iProtocolID]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[siCompanyTypeID]"
+                      cachedDataType="i2"
+                      cachedName="siCompanyTypeID"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[siCompanyTypeID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[siCompanyTypeID]" />
+                    <inputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].Columns[tiPrimary]"
+                      cachedDataType="ui1"
+                      cachedName="tiPrimary"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[tiPrimary]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[tiPrimary]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iCreatedBy]"
+                      dataType="i4"
+                      name="iCreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[dtCreated]"
+                      dataType="dbTimeStamp"
+                      name="dtCreated" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iModifiedBy]"
+                      dataType="i4"
+                      name="iModifiedBy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[dtModified]"
+                      dataType="dbTimeStamp"
+                      name="dtModified" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[DataSource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="DataSource" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[IsMarkedDeleted]"
+                      dataType="bool"
+                      name="IsMarkedDeleted" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[RowCRC]"
+                      dataType="i8"
+                      name="RowCRC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[ETLBatchID]"
+                      dataType="i8"
+                      name="ETLBatchID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iCompanyID]"
+                      dataType="i4"
+                      name="iCompanyID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[iProtocolID]"
+                      dataType="i4"
+                      name="iProtocolID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[siCompanyTypeID]"
+                      dataType="i2"
+                      name="siCompanyTypeID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input].ExternalColumns[tiPrimary]"
+                      dataType="ui1"
+                      name="tiPrimary" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType"
+              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT *,BINARY_CHECKSUM(*) AS RowCRC FROM dbo.Address WHERE dtModified &gt;= '1900-01-01' AND dtModified &lt; '9999-01-01'</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::SQLText</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[NEIRB]"
+                  connectionManagerRefId="Package.ConnectionManagers[NEIRB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iCreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iCreatedBy]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iCreatedBy]"
+                      name="iCreatedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[dtCreated]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[dtCreated]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[dtCreated]"
+                      name="dtCreated"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iModifiedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iModifiedBy]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iModifiedBy]"
+                      name="iModifiedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[dtModified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[dtModified]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[dtModified]"
+                      name="dtModified"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[RowCRC]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[RowCRC]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[RowCRC]"
+                      name="RowCRC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iCompanyID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iCompanyID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iCompanyID]"
+                      name="iCompanyID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iProtocolID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iProtocolID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[iProtocolID]"
+                      name="iProtocolID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[siCompanyTypeID]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[siCompanyTypeID]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[siCompanyTypeID]"
+                      name="siCompanyTypeID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[tiPrimary]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[tiPrimary]"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].Columns[tiPrimary]"
+                      name="tiPrimary"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iCreatedBy]"
+                      dataType="i4"
+                      name="iCreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[dtCreated]"
+                      dataType="dbTimeStamp"
+                      name="dtCreated" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iModifiedBy]"
+                      dataType="i4"
+                      name="iModifiedBy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[dtModified]"
+                      dataType="dbTimeStamp"
+                      name="dtModified" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[RowCRC]"
+                      dataType="i4"
+                      name="RowCRC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iCompanyID]"
+                      dataType="i4"
+                      name="iCompanyID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[iProtocolID]"
+                      dataType="i4"
+                      name="iProtocolID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[siCompanyTypeID]"
+                      dataType="i2"
+                      name="siCompanyTypeID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output].ExternalColumns[tiPrimary]"
+                      dataType="ui1"
+                      name="tiPrimary" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iCompanyID]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iCompanyID]"
+                      name="iCompanyID" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iProtocolID]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iProtocolID]"
+                      name="iProtocolID" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[siCompanyTypeID]"
+                      dataType="i2"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[siCompanyTypeID]"
+                      name="siCompanyTypeID" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[tiPrimary]"
+                      dataType="ui1"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[tiPrimary]"
+                      name="tiPrimary" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iCreatedBy]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iCreatedBy]"
+                      name="iCreatedBy" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[dtCreated]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[dtCreated]"
+                      name="dtCreated" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iModifiedBy]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[iModifiedBy]"
+                      name="iModifiedBy" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[dtModified]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[dtModified]"
+                      name="dtModified" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[RowCRC]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[RowCRC]"
+                      name="RowCRC" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="RC Count Inserted Rows">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::InsertRowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT_Extract Updates Inserts.Paths[Derived Column Output]"
+              endId="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT_Extract Updates Inserts.Paths[OLE DB Source Output]"
+              endId="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows.Inputs[Row Count Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\DFT_Extract Updates Inserts.Paths[Row Count Output 1]"
+              endId="Package\DFT_Extract Updates Inserts\DRV Set Data Source.Inputs[Derived Column Input]"
+              name="Row Count Output 1"
+              startId="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows.Outputs[Row Count Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Audit Package Execution Skipped"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{10371E54-7C75-4CCD-B7AE-8DFA8AE68C83}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Audit Package Execution Skipped"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="EXEC usp_AuditSkipped ?,?,?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StagingSchema"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::StagingTable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Check Package Execution Status"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4F67A7B1-F2DB-452F-A06A-5E7EDCDA1034}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Check Package Execution Status"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="EXEC usp_GetLoadInformation ?,?,?,?,?"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::PackageStatus" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="1"
+            SQLTask:DtsVariableName="User::LoadStartDate" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="2"
+            SQLTask:DtsVariableName="User::LoadEndDate" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="3"
+            SQLTask:DtsVariableName="User::ETLBatchID" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::DataSource"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StagingSchema"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::SourceTable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="150" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="255" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="4"
+            SQLTask:DtsVariableName="User::ETLStage"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Check Source Skip Status"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FC448177-66B8-432D-BBB3-CA5388FE2A4B}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Check Source Skip Status"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="SqlStatementSource">"SELECT CASE WHEN SkipLoad = 1 THEN 'Y' ELSE 'N' END AS SkipDataSource FROM Config.DataSource WHERE DataSource =  " + "'" + @[User::DataSource] + "'"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="SELECT CASE WHEN SkipLoad = 1 THEN 'Y' ELSE 'N' END AS SkipDataSource FROM Config.DataSource WHERE DataSource =  'NEIRB'"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::SkipDataSource" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::DataSource"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Disable Indexes"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="SQL_Disable Indexes"
+      DTS:Disabled="True"
+      DTS:DTSID="{86AC354D-E14C-4079-A694-73233BA77529}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Disable Indexes"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CC35C6C4-9F53-4198-BB77-7D4A5733D830}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="ALTER INDEX [IDX_Extraction_Address_iAddressID] ON [Extraction].NEIRB_Address DISABLE &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Enable Indexes"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="SQL_Enable Indexes"
+      DTS:Disabled="True"
+      DTS:DTSID="{2EC1D6F0-C7D7-43F0-8DC5-3286172E03AF}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Enable Indexes"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CC35C6C4-9F53-4198-BB77-7D4A5733D830}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="ALTER INDEX [IDX_Extraction_Address_iAddressID] ON [Extraction].NEIRB_Address REBUILD  &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_End Table and Package Auditing"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{11FF5626-A319-46D8-8DC9-D96E1507D772}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_End Table and Package Auditing"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="EXEC usp_AuditEnd ?,?,?,?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StagingSchema"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::StagingTable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="User::InsertRowCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Start Table and Package Auditing"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8B3286E5-DB8B-4658-B9D6-D9E79653230B}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Start Table and Package Auditing"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="EXEC usp_AuditStart ?,?,?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StagingSchema"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::StagingTable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="50" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Truncate Staging Table"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="SQL_Truncate Staging Table"
+      DTS:DTSID="{9226D14B-5C63-4930-984A-2AC71E908177}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Truncate Staging Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE Extraction.NEIRB_ProtocolCompany_CompanyType" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Update Load Dates"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AD0F9B94-B5D3-4312-BA51-88D11E88F462}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Update Load Dates"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="EXEC usp_UpdateLoadDates ?,?,?,?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::LoadStartDate"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="25" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::LoadEndDate"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="25" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::StagingSchema"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="200" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="User::StagingTable"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="200" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Update Unmarked Deletes"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{510B0CCB-8567-422D-9A96-10B990FEAEC3}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Update Unmarked Deletes"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="SqlStatementSource">"UPDATE " +  @[User::StagingSchema]  +  "." + @[User::StagingTable]  + " SET IsMarkedDeleted = 0 WHERE IsMarkedDeleted  IS NULL"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CC35C6C4-9F53-4198-BB77-7D4A5733D830}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="UPDATE Extraction.NEIRB_ProtocolCompany_CompanyType SET IsMarkedDeleted = 0 WHERE IsMarkedDeleted  IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{57B5E3A0-D881-46C3-A90A-13CDCD306C6D}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::SkipDataSource] == &quot;N&quot;"
+      DTS:From="Package\SQL_Check Source Skip Status"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL_Check Package Execution Status" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{77B8C592-88FA-4841-8F49-9C0FFCC800D2}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::PackageStatus] == &quot;Waiting&quot; || @[User::PackageStatus] == &quot;Failed&quot;"
+      DTS:From="Package\SQL_Check Package Execution Status"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL_Start Table and Package Auditing" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{BFDA8198-278E-4A89-995D-B1AD4A73D061}"
+      DTS:From="Package\SQL_End Table and Package Auditing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 10"
+      DTS:To="Package\SQL_Update Load Dates" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{B16F2027-697F-41B1-BFC3-76E33EA22CF5}"
+      DTS:From="Package\SQL_Start Table and Package Auditing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SQL_Truncate Staging Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{D950266E-DFE7-4CE7-86F5-039524FA03EB}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::PackageStatus] == &quot;Skipped&quot;"
+      DTS:From="Package\SQL_Check Package Execution Status"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SQL_Audit Package Execution Skipped" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{382CF4AB-C6A6-459B-BCBA-E943AF546BF7}"
+      DTS:From="Package\SQL_Truncate Staging Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\SQL_Disable Indexes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{F0DD08AD-B72F-487D-9A31-2B50A90671C4}"
+      DTS:From="Package\DFT_Extract Updates Inserts"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\DFT_Extract Deleted Records" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{2934F4F5-BCC5-459D-BFFE-116C4666BFE8}"
+      DTS:From="Package\SQL_Disable Indexes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\DFT_Extract Updates Inserts" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{D9DBCEA1-753D-4878-BB39-C4F9866B56BA}"
+      DTS:From="Package\DFT_Extract Deleted Records"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\SQL_Enable Indexes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{83A50A30-2AA4-42E6-87AF-75DA85612FCC}"
+      DTS:From="Package\SQL_Enable Indexes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\SQL_Update Unmarked Deletes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{8A438AAD-2C0E-42F5-8775-F5E4D2CE467C}"
+      DTS:From="Package\SQL_Update Unmarked Deletes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\SQL_End Table and Package Auditing" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{2BD9E05F-B80A-428D-BF8D-B14C929D2A37}"
+      DTS:EventID="794415596"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="The propagate property of the event"
+          DTS:DTSID="{08EA3345-6D24-4311-AF3B-E295F6C645F2}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\SQL_Set Package and Table Status Failed"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{F624F1E9-E3A1-46CF-A92F-E0E39514EBA6}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_Set Package and Table Status Failed"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"
+DECLARE @PackageID BIGINT
+SELECT @PackageID = PackageID FROM Config.PackageInformation WHERE PackageName= '" + @[System::PackageName]  + "'
+UPDATE Config.AuditPackageInformation SET LoadStatus = 'Failed' WHERE PackageID = @PackageID AND LoadStatus = 'Active'
+
+ 
+DECLARE @TableID BIGINT
+SELECT @TableID = TableID FROM Config.TableInformation WHERE TableName = '" + @[User::StagingTable]   + "' AND TableSchema = '"  + @[User::StagingSchema]  +  "'
+UPDATE Config.AuditTableInformation SET LoadStatus = 'Failed' WHERE TableID = @TableID AND PackageID = @PackageID AND LoadStatus = 'Active'
+
+UPDATE Config.PackageInformation SET PackageStatus='Failed' WHERE PackageID = @PackageID 
+
+
+UPDATE Config.ETLBatch SET BatchStatus='Failed' WHERE BatchStatus='Active'
+ "</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{B5FEF9F2-086F-4796-AD85-84F3096FFF33}"
+              SQLTask:BypassPrepare="False"
+              SQLTask:SqlStatementSource="&#xA;DECLARE @PackageID BIGINT&#xA;SELECT @PackageID = PackageID FROM Config.PackageInformation WHERE PackageName= 'Extraction_NEIRB_ProtocolCompany_CompanyType'&#xA;UPDATE Config.AuditPackageInformation SET LoadStatus = 'Failed' WHERE PackageID = @PackageID AND LoadStatus = 'Active'&#xA;&#xA; &#xA;DECLARE @TableID BIGINT&#xA;SELECT @TableID = TableID FROM Config.TableInformation WHERE TableName = 'NEIRB_ProtocolCompany_CompanyType' AND TableSchema = 'Extraction'&#xA;UPDATE Config.AuditTableInformation SET LoadStatus = 'Failed' WHERE TableID = @TableID AND PackageID = @PackageID AND LoadStatus = 'Active'&#xA;&#xA;UPDATE Config.PackageInformation SET PackageStatus='Failed' WHERE PackageID = @PackageID &#xA;&#xA;&#xA;UPDATE Config.ETLBatch SET BatchStatus='Failed' WHERE BatchStatus='Active'&#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="219,42"
+          Id="Package\DFT_Extract Deleted Records"
+          TopLeft="78,298" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\DFT_Extract Updates Inserts"
+          TopLeft="74,198" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\SQL_Audit Package Execution Skipped"
+          TopLeft="507,23" />
+        <NodeLayout
+          Size="258,42"
+          Id="Package\SQL_Check Package Execution Status"
+          TopLeft="357,119" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\SQL_Check Source Skip Status"
+          TopLeft="72,119" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\SQL_Disable Indexes"
+          TopLeft="406,198" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\SQL_Enable Indexes"
+          TopLeft="368,298" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\SQL_End Table and Package Auditing"
+          TopLeft="903,295" />
+        <NodeLayout
+          Size="262,42"
+          Id="Package\SQL_Start Table and Package Auditing"
+          TopLeft="667,119" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\SQL_Truncate Staging Table"
+          TopLeft="691,198" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\SQL_Update Load Dates"
+          TopLeft="955,197" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\SQL_Update Unmarked Deletes"
+          TopLeft="594,299" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="297,140">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="60,0"
+              Start="0,0"
+              End="52.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="52.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="18.25,5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="615,140">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="52,0"
+              Start="0,0"
+              End="44.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="44.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="14.25,5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 10]"
+          TopLeft="1031.5,295">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="21,-56"
+              Start="0,0"
+              End="21,-48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-24" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-24"
+                    Point2="0,-28"
+                    Point3="4,-28" />
+                  <mssgle:LineSegment
+                    End="17,-28" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17,-28"
+                    Point2="21,-28"
+                    Point3="21,-32" />
+                  <mssgle:LineSegment
+                    End="21,-48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="798.25,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="486,119">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="151.5,-54"
+              Start="0,0"
+              End="151.5,-46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-23"
+                    Point2="0,-27"
+                    Point3="4,-27" />
+                  <mssgle:LineSegment
+                    End="147.5,-27" />
+                  <mssgle:CubicBezierSegment
+                    Point1="147.5,-27"
+                    Point2="151.5,-27"
+                    Point3="151.5,-31" />
+                  <mssgle:LineSegment
+                    End="151.5,-46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="67.75,-22,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="691,219">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-105,0"
+              Start="0,0"
+              End="-97.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-97.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="184.75,240">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="406,219">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-116,0"
+              Start="0,0"
+              End="-108.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-108.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="297,319">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="71,0"
+              Start="0,0"
+              End="63.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="63.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="546,319.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="48,0"
+              Start="0,0"
+              End="40.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="40.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="823,318">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="80,0"
+              Start="0,0"
+              End="72.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="72.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Check if the source system is to be skipped"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="259,40"
+          Id="8d1a001b-7c6f-4f15-aad6-af64c3067828"
+          TopLeft="41,85" />
+        <AnnotationLayout
+          Text="Get SSIS package status"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="157,40"
+          Id="7785cb55-baa8-476b-982e-9aa2c5dbf2ea"
+          TopLeft="335,85" />
+        <AnnotationLayout
+          Text="Package Name:  Extraction_NEIRB_ProtocolCompany_CompanyType&#xA;-------------------------------------------------------------------------------&#xA;2016-06-09     ckodali Created package.&#xA;-------------------------------------------------------------------------------&#xA;Description: &#xA;Imports data from the source table dbo.ProtocolCompany_CompanyType (NEIRB) into the staging table Extraction.NEIRB_ProtocolCompany_CompanyType (StagingDB).&#xA;"
+          ParentId="Package"
+          Size="701,100"
+          Id="89a00a3f-349e-4a25-85ab-13f62de7afd4"
+          TopLeft="975,18">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="9"
+              Color="#FF800000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="Capture load start time, table count and size"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="265,40"
+          Id="2fbf5c1b-2a87-4e9c-9dc9-b685c56a529c"
+          TopLeft="655,85" />
+        <AnnotationLayout
+          Text="Truncate the staging table where the data is extracted"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="316,40"
+          Id="12f76aa8-7ae9-40a2-9a1d-69824011d084"
+          TopLeft="676,230" />
+        <AnnotationLayout
+          Text="Audit the package status &#xA;if status is either skipped"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="165,56"
+          Id="fe341ef3-75b1-4491-bb21-9dca280b366b"
+          TopLeft="351,16" />
+        <AnnotationLayout
+          Text="Extract updates and deletes into the extraction table"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="307,40"
+          Id="60f41e01-b45e-467e-a686-dd00fad6cd7c"
+          TopLeft="44,165" />
+        <AnnotationLayout
+          Text="Sync records deleted at source"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="193,40"
+          Id="f4ea4b07-1d54-4198-8431-7897d8900004"
+          TopLeft="87,326" />
+        <AnnotationLayout
+          Text="Capture load end time,  pre and post and table sizes"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="307,40"
+          Id="27cb4aeb-2cfe-4152-b778-1bf19932590b"
+          TopLeft="899,326" />
+        <AnnotationLayout
+          Text="Disable indexes before load operation"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="232,40"
+          Id="ead7b8e8-7555-4b4d-aac8-f54a31d8c45b"
+          TopLeft="389,230" />
+        <AnnotationLayout
+          Text="Rebuild indexes on the staging table"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="224,40"
+          Id="32b42409-97d9-4393-9bd8-d594aadbf18d"
+          TopLeft="357,326" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="276,42"
+          Id="Package.EventHandlers[OnError]\SQL_Set Package and Table Status Failed"
+          TopLeft="507,107" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\DFT_Extract Deleted Records">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="206,42"
+          Id="Package\DFT_Extract Deleted Records\RC_Set Delete Read Count"
+          TopLeft="491,146" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information"
+          TopLeft="212,227" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information"
+          TopLeft="196,58" />
+        <EdgeLayout
+          Id="Package\DFT_Extract Deleted Records.Paths[Row Count Output 1]"
+          TopLeft="594,188">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-258,39"
+              Start="0,0"
+              End="-258,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="-4,19.5" />
+                  <mssgle:LineSegment
+                    End="-254,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-254,19.5"
+                    Point2="-258,19.5"
+                    Point3="-258,23.5" />
+                  <mssgle:LineSegment
+                    End="-258,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Extract Deleted Records.Paths[OLE DB Source Output]"
+          TopLeft="319,100">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="275,46"
+              Start="0,0"
+              End="275,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="271,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="271,23"
+                    Point2="275,23"
+                    Point3="275,27" />
+                  <mssgle:LineSegment
+                    End="275,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Extract Deleted Records\OLEDST_Write Deleted Information">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Extract Deleted Records\OLESRC_Read Deleted Information">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DFT_Extract Updates Inserts">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="351,42"
+          Id="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType"
+          TopLeft="235,34" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\DFT_Extract Updates Inserts\DRV Set Data Source"
+          TopLeft="612,190" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\DFT_Extract Updates Inserts\RC Count Inserted Rows"
+          TopLeft="608,121" />
+        <NodeLayout
+          Size="358,42"
+          Id="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType"
+          TopLeft="241,255" />
+        <EdgeLayout
+          Id="Package\DFT_Extract Updates Inserts.Paths[OLE DB Source Output]"
+          TopLeft="410.5,76">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="295.5,45"
+              Start="0,0"
+              End="295.5,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.5"
+                    Point2="0,22.5"
+                    Point3="4,22.5" />
+                  <mssgle:LineSegment
+                    End="291.5,22.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="291.5,22.5"
+                    Point2="295.5,22.5"
+                    Point3="295.5,26.5" />
+                  <mssgle:LineSegment
+                    End="295.5,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Extract Updates Inserts.Paths[Derived Column Output]"
+          TopLeft="702,232">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-282,23"
+              Start="0,0"
+              End="-282,15.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,7.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,7.5"
+                    Point2="0,11.5"
+                    Point3="-4,11.5" />
+                  <mssgle:LineSegment
+                    End="-278,11.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-278,11.5"
+                    Point2="-282,11.5"
+                    Point3="-282,15.5" />
+                  <mssgle:LineSegment
+                    End="-282,15.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Extract Updates Inserts.Paths[Row Count Output 1]"
+          TopLeft="704,163">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,27"
+              Start="0,0"
+              End="0,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Extract Updates Inserts\OLEDBSRC_Read_Neirb_ProtocolCompany_CompanyType">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Extract Updates Inserts\OLEDBDST_Write_NEIRB_ProtocolCompany_CompanyType">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
